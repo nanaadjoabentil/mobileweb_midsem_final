@@ -172,7 +172,7 @@ else {
     var_dump($response);
 
     $ussd->transactions($tp, $number, $trans, $net, $recipient, $amt, $conf);
-    var_dump($ussd->transactions($tp, $number, $trans, $net, $recipient, $amt, $conf));
+    // var_dump($ussd->transactions($tp, $number, $trans, $net, $recipient, $amt, $conf));
 
     echo "recipient".$recipient . '<br/>';
     echo "amount" . $amt. '<br/>';
@@ -181,7 +181,7 @@ else {
 
     $ussd->sendSMS($recipient);
     // echo "HEY:".$ussd->sendMoney($recipient, $amount, $tp, $network);
-    $ussd->deleteSession($number);
+    // $ussd->deleteSession($number);
 }
   else if( $data=='2')
   {
