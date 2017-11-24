@@ -1,0 +1,79 @@
+Flow
+1.  Flow
+  Welcome to Insta-Money Transfer
+  1. Check account balance (reply on select = "You have GHS... remaining in your account")
+  2. Send money
+    1. To MTN
+      1. Enter recipient's number
+        1. Enter amount
+          1. Confirmation page
+            1. 'Sent' message received on both ends.
+    2. To Vodafone
+      1. Enter recipient's number
+        1. Enter amount
+          1. Confirmation page
+            1. 'Sent' message received on both ends.
+    3. To Airtel
+      1. Enter recipient's number
+        1. Enter amount
+          1. Confirmation page
+            1. 'Sent' message received on both ends.
+    4. To Tigo
+      1. Enter recipient's number
+        1. Enter amount
+          1. Confirmation page
+            1. 'Sent' message received on both ends.
+  3. Exit(reply on select="thank you for using insta-money transfer")
+
+
+Processing Levels (level number = switch case value)
+LEVEL 1
+1. Check account balance
+2. Send money
+3. Exit
+
+LEVEL 2
+1. To MTN
+2. To Vodafone
+3. To Airtel
+4. To Tigo
+5. Exit
+
+LEVEL 3
+1. Enter recipient's number
+
+LEVEL 4
+Enter amount
+
+LEVEL 5
+Confirmation page (do you wish to send amt to number?)
+
+LEVEL 6
+'Sent' message sent and received on both ends.
+
+REQUEST PROCESSING STEPS
+1. check if user has an existing session [sessionmanager(number)]
+  a. if user doesnt have
+    i. create new session [identifyuser(number)]
+    ii. show welcome menu
+
+      Welcome to insta-money Transfer
+      1. check account balance
+      2. send Money
+      3. Exit
+
+  b. if user has an existing session
+    i. check session count [identifyuser(number)]
+    value of session count = switch case value
+    ii. if session position has sublevels
+      1. update transaction type [updatetransactiontype(number, "transaction_type", 'statement')]
+      2. return response message
+        Send money
+          a. to MTN
+          b. to Vodafone
+          c. to Airtel
+          d. to Tigo
+          e. Exit
+    iii. if session position doesn't have sublevels
+      1. return response message
+      2. delete user session [deletesession($number)]
