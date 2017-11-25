@@ -7,7 +7,7 @@
 \f0\fs24 \cf0 \
 Username = nana.bentil\
 \
-url to admin dashboard: 144.76.58.179/ashesi/713/admin/admin_dashboard.php\
+url to admin dashboard: http://144.76.58.179/ashesi/713/admin_dashboard.php\
 \
 USSD code + extension = *899*713#\
 \
