@@ -57,7 +57,7 @@ require_once '../ApplicationFunctions.php';
 
   <div class = "row">
     <div class = "input-field col s10">
-     <input type="text" id = "search" name = "search" onkeyup="search(this.value)">
+     <input type="text" id = "search" name = "search">
      <label for"search">Search number</label>
    </div>
    <button class="btn waves-effect waves-light" type="submit" name="searchbutton">Search
@@ -81,21 +81,6 @@ require_once '../ApplicationFunctions.php';
     xmlhttp.open('GET','table.php?', true);
     xmlhttp.send();
   }
-
-  function search(number)
-  {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function(){
-      if(this.readyState ==4 && this.status == 200)
-      {
-        document.getElementById('table').innerHTML=this.responseText;
-      }
-    };
-    xmlhttp.open('GET','table.php?search=' + number, true);
-    xmlhttp.send();
-  }
-
-
 </script>
 </body>
 </html>

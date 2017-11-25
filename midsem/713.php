@@ -23,6 +23,7 @@ $tp = rand(10,1000000);
 //FUNCTION TO CHECK IF SESSION EXISTS AND THE SESSION COUNT
 /*GET SESSION STATE OF THE USER*/
 $sess = intval($ussd -> sessionManager($number));
+// var_dump($sess);
 
 //CREATING LOG
 // $write = $time . "|Request|" . $number . "|" . $sessionID . "|" . $data ."|".$sess. PHP_EOL;
@@ -42,7 +43,8 @@ else {
           {
                 $reply = "Send Money" . "\r\n" ."1. To MTN" . "\r\n" ."2. To Vodafone" . "\r\n" ."3. To Airtel". "\r\n" ."4. To Tigo". "\r\n" ."5. Exit";
                 $type = "1";
-                $ussd -> UpdateTransactionType($number, "transaction_type", "Debit");
+                $ussd -> UpdateTransactionType($number, "transaction_type", "STATEMENT");
+                // echo "HEY:".$ussd->sendMoney($recipient, $amount, $tp, $network);
               }
           elseif ($data=='2')
           {
@@ -59,13 +61,17 @@ else {
 
     case 2: #SESSION COUNT =2 #SERVICE LEVEL 2
     //get recipient's number and save in a variable
+    // $GLOBALS['number'] = $data;
 
       if($data=='1')
       {
         $reply = "Enter recipient's number";
         $type = '1';
         $ussd -> UpdateTransactionType($number, "network", "MTN");
+        // echo "Hi:".$ussd->sendMoney($recipient, $amount, $tp, $network);
         $network = "MTN";
+        // $ussd -> UpdateTransactionType($number, "recipientcol", $data);
+        // var_dump($ussd->UpdateTransactionType($number, "recipient", "number"));
       }
       else if( $data=='2')
       {
@@ -73,6 +79,7 @@ else {
         $type = '1';
         $ussd -> UpdateTransactionType($number, "network", "Vodafone");
         $network = "Vodafone";
+        // $ussd ->UpdateTransactionType($number, "recipientcol", "number");
       }
       else if( $data=='3')
       {
@@ -80,6 +87,7 @@ else {
         $type = '1';
         $ussd -> UpdateTransactionType($number, "network", "Airtel");
         $network = "Airtel";
+        // $ussd ->UpdateTransactionType($number, "recipientcol", "number");
       }
       else if( $data=='4')
       {
@@ -87,6 +95,7 @@ else {
         $type = '1';
         $ussd -> UpdateTransactionType($number, "network", "Tigo");
         $network = "Tigo";
+        // $ussd ->UpdateTransactionType($number, "recipientcol", "number");
       }
       else if( $data=='5')
       {
@@ -99,10 +108,12 @@ else {
         $type='0';
         $ussd->deleteSession($number);
       }
+      // echo $network;
       break;
 
   case 3: #SESSION COUNT 3 SERVICE LEVEL 3
   //get amount from user and save it in a variable
+  // $GLOBALS['amount']=$data;
 
   if (!empty($data))
   {
@@ -110,6 +121,8 @@ else {
     $type = '1';
     $ussd -> UpdateTransactionType($number, "recipientcol", $data);
     $recipient = $number;
+    // echo "Ho:".$ussd->sendMoney($recipient, $amount, $tp, $network);
+    // $ussd ->UpdateTransactionType($number, "amountcol", $data);
   }
   else {
     $reply="invalid option selected";
@@ -119,12 +132,15 @@ else {
   break;
 
   case 4: #SESSION COUNT 4 = SERVICE LEVEL 4
+  //CALL amount and number variables and concatenate them with the statement.
   if (!empty($data))
   {
     $reply = "Are you sure you wish to continue with this transaction?" . "\r\n" . "Enter 1 for yes and 2 for no";
     $type = '1';
     $ussd ->UpdateTransactionType($number, "amountcol", $data);
+    // echo "Hip:".$ussd->sendMoney($recipient, $amount, $tp, $network);
     $amount = $data;
+    // $ussd ->UpdateTransactionType($number, "confirmcol", "confirmed");
   }
   else {
     $reply="invalid option selected";
@@ -139,7 +155,8 @@ else {
   //if yes:
   if ($data=='1')
   {
-    $reply = "Transaction in Progress.";
+    // echo "im here";
+    $reply = "sending";
     $type = '1';
     $ussd->UpdateTransactionType($number, "confirmcol", "confirmed");
 
@@ -155,13 +172,20 @@ else {
     var_dump($response);
 
     $ussd->transactions($tp, $number, $trans, $net, $recipient, $amt, $conf);
+    // var_dump($ussd->transactions($tp, $number, $trans, $net, $recipient, $amt, $conf));
+
+    echo "recipient".$recipient . '<br/>';
+    echo "amount" . $amt. '<br/>';
+    echo "network" .$network. '<br/>';
+    echo "tp" . $tp. '<br/>';
 
     $ussd->sendSMS($recipient);
-    $ussd->deleteSession($number);
+    // echo "HEY:".$ussd->sendMoney($recipient, $amount, $tp, $network);
+    // $ussd->deleteSession($number);
 }
   else if( $data=='2')
   {
-    $reply = "Unfortunately, your transaction has stopped.";
+    $reply = "stopped";
     $type = '0';
     $ussd ->deleteSession($number);
   }
@@ -170,8 +194,8 @@ else {
 }
 
   $response = $number.'|'.$reply.'|'.$sessionID.'|'.$type;
-  // $write = $time . "|Request_reply|". $response . PHP_EOL;
-  // file_put_contents('ussd_access.log', $write, FILE_APPEND);
+//   $write = $time . "|Request_reply|". $response . PHP_EOL;
+//   // file_put_contents('ussd_access.log', $write, FILE_APPEND);
   echo $response;
 
   ?>
